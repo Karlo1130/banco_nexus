@@ -6,7 +6,7 @@ export const getAccount = async (req, res) => {
         const {cuenta} = req.params
         
 
-        const [transactions] = await pool.query(`SELECT * FROM transacciones WHERE cuenta_id = ?`, [cuenta])
+        const [transactions] = await pool.query(`SELECT * FROM transacciones WHERE cuenta_origen = ?`, [cuenta])
         const [balance] = await pool.query(`SELECT * FROM cuentas WHERE cuenta_id = ?`, [cuenta])
 
         console.log(transactions);
