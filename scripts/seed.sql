@@ -23,6 +23,7 @@ CREATE TABLE transacciones (
     tipo ENUM('Deposito', 'Retiro') NOT NULL,
     monto DECIMAL(10, 2) NOT NULL,
     fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+    sucursal VARCHAR(50),
     FOREIGN KEY (cuenta_id) REFERENCES cuentas(cuenta_id)
 );
 
@@ -50,10 +51,10 @@ INSERT INTO cuentas (cuenta_id, curp_cliente, saldo) VALUES
 ('009', 'MELR940927MDFPLN09', 6650.00),
 ('010', 'RAHU880619HDFSTS10', 5100.00);
 
-INSERT INTO transacciones (cuenta_id, tipo, monto)
-VALUES ('001', 'Deposito', 1000.00);
-INSERT INTO transacciones (cuenta_id, tipo, monto)
-VALUES ('001', 'Retiro', 500.00);
+INSERT INTO transacciones (cuenta_id, tipo, monto, sucursal) VALUES
+('0000000001', 'Deposito', 1000.00, 'CDMX'),
+('0000000001', 'Retiro',    200.00, 'CDMX'),
+('0000000002', 'Deposito', 3000.00, 'GDL'):
 
 SELECT * FROM cuentas;
 SELECT * FROM transacciones WHERE cuenta_id = 001;
