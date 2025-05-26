@@ -4,7 +4,7 @@ function App() {
   const [cuenta, setCuenta] = useState('');
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
-  const [movimiento, setMovimiento] = useState({ tipo: 'deposito', monto: '' });
+  const [movimiento, setMovimiento] = useState({ tipo: 'deposito', monto: '', sucursal: '' });
   const [msg, setMsg] = useState(null);
 
   const consultarCuenta = async () => {
@@ -46,13 +46,19 @@ function App() {
       return;
     }
 
+    if (!movimiento.sucursal.trim()) {
+      setError("Por favor indica la sucursal.");
+      return;
+    }
+
     try {
       const res = await fetch(`/api/transaction/${cuenta}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          type: movimiento.tipo,      // ahora es 'deposito' o 'retiro'
-          value: Number(movimiento.monto)
+          type: movimiento.tipo,
+          value: Number(movimiento.monto),
+          branch: movimiento.sucursal
         }),
       });
       if (!res.ok) {
@@ -60,7 +66,7 @@ function App() {
         throw new Error(text || "Error al procesar el movimiento");
       }
       setMsg(`Movimiento realizado: ${movimiento.tipo} de $${movimiento.monto}`);
-      setMovimiento({ tipo: 'deposito', monto: '' });
+      setMovimiento({ tipo: 'deposito', monto: '', sucursal: '' });
       consultarCuenta();
     } catch (err) {
       setError(err.message);
@@ -95,6 +101,7 @@ function App() {
                     <th>Monto</th>
                     <th>Tipo</th>
                     <th>Fecha</th>
+                    <th>Sucursal</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -104,6 +111,7 @@ function App() {
                       <td>${tx.monto}</td>
                       <td>{tx.tipo}</td>
                       <td>{new Date(tx.fecha).toLocaleString()}</td>
+                      <td>{tx.sucursal}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -131,6 +139,15 @@ function App() {
           value={movimiento.monto}
           onChange={handleMovimientoChange}
           placeholder="Cantidad"
+        />
+
+        <label>Sucursal:</label>
+        <input
+          type="text"
+          name="sucursal"
+          value={movimiento.sucursal}
+          onChange={handleMovimientoChange}
+          placeholder="Sucursal"
         />
 
         <button onClick={enviarMovimiento}>Enviar</button>
