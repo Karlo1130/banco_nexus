@@ -52,10 +52,6 @@ INSERT INTO cuentas (cuenta_id, curp_cliente, saldo) VALUES
 ('010', 'RAHU880619HDFSTS10', 5100.00);
 
 INSERT INTO transacciones (cuenta_id, tipo, monto, sucursal) VALUES
-('0000000001', 'Deposito', 1000.00, 'CDMX'),
-('0000000001', 'Retiro',    200.00, 'CDMX'),
-('0000000002', 'Deposito', 3000.00, 'GDL'):
-
-SELECT * FROM cuentas;
-SELECT * FROM transacciones WHERE cuenta_id = 001;
-SELECT * FROM cuentas WHERE cuenta_id = 001;
+('001', 'Deposito', 1000.00, 'CDMX'),
+('001', 'Retiro',    200.00, 'CDMX'),
+('002', 'Deposito', 3000.00, 'GDL');

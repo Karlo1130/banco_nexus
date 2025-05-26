@@ -26,7 +26,7 @@ export const getAccount = async (req, res) => {
 
 export const postTransaction = async (req, res) => {
   try {
-    const { type, value } = req.body;
+    const { type, value, branch } = req.body;
     const { cuenta } = req.params;
 
     if (!['deposito', 'retiro'].includes(type)) {
@@ -48,8 +48,8 @@ export const postTransaction = async (req, res) => {
     }
 
     await pool.query(
-      `INSERT INTO transacciones (cuenta_id, tipo, monto) VALUES (?, ?, ?)`,
-      [cuenta, type, value]
+      `INSERT INTO transacciones (cuenta_id, tipo, monto, sucursal) VALUES (?, ?, ?, ?)`,
+      [cuenta, type, value, branch]
     );
 
     const updateQuery = type === 'deposito'
