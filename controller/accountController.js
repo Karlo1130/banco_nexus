@@ -4,7 +4,7 @@ export const getAccount = async (req, res) => {
   try {
     const { cuenta } = req.params;
 
-    const [transactions] = await pool.query(
+    const transactions = await pool.query(
       `SELECT * FROM transacciones WHERE cuenta_id = ?`,
       [cuenta]
     );
@@ -34,7 +34,7 @@ export const postTransaction = async (req, res) => {
     }
 
     // Verificar saldo si es retiro
-    const [[cuentaInfo]] = await pool.query(
+    const [cuentaInfo] = await pool.query(
       `SELECT saldo FROM cuentas WHERE cuenta_id = ?`,
       [cuenta]
     );
